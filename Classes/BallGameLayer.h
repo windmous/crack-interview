@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "BallActor.h"
+#include "MessageHUD.h"
 
 USING_NS_CC;
 
