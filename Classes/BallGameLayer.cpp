@@ -20,9 +20,11 @@ bool BallGameLayer::init()
 	addChild(messageHUD, 10);
 
 	// Add candidate ball
-	messageHUD->addCandidateBall("BallGameScene/ball_01.png", "BallGameScene/ball_01_chosen.png", "BallGameScene/ball_unavail.png");
+	auto cdBall1 = messageHUD->addCandidateBall("BallGameScene/ball_01.png", "BallGameScene/ball_01_chosen.png", "BallGameScene/ball_unavail.png");
+	cdBall1->setToUnavail();
 	messageHUD->addCandidateBall("BallGameScene/ball_02.png", "BallGameScene/ball_02_chosen.png", "BallGameScene/ball_unavail.png");
 	messageHUD->addCandidateBall("BallGameScene/ball_03.png", "BallGameScene/ball_03_chosen.png", "BallGameScene/ball_unavail.png");
+
 
 	return true;
 }

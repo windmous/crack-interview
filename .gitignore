@@ -11,3 +11,7 @@ proj.win8.1-universal/
 proj.win32/
 proj.wp8-xaml/
 CMakeLists.txt
+bin/
+test02.cfg
+test02.ccs
+test02.udf

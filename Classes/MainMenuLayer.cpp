@@ -40,7 +40,7 @@ bool MainMenuLayer::init()
 void MainMenuLayer::startGameEvent(Ref* sender)
 {
 	// Create the scene of BallGameScene with a transition effect
-	auto replaceScene = TransitionCrossFade::create(2, BallGameScene::create());
+	auto replaceScene = TransitionCrossFade::create(1, BallGameScene::create());
 
 	// Replace the scene with the transition effect 
 	Director::getInstance()->replaceScene(replaceScene);

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/UIImageView.h"
 #include "CandidateBall.h"
+#include "ui/CocosGUI.h"
 #include <string>
 #include <vector>
 
@@ -18,10 +19,15 @@ public:
 
 	CandidateBallList* candidateBallList;
 
-	// Add new candidate ball, fail if number of balls exceeds the threshold
-	bool addCandidateBall(const std::string normalFilePath,
+	// Add new candidate ball, return NULL if number of balls exceeds the threshold
+	CandidateBall* addCandidateBall(const std::string normalFilePath,
 		const std::string chosenFilePath,
 		const std::string unavailFilePath);
+
+	// 
+	ui::TextAtlas* hpLabel;
+
+	//void updateHP();
 
 private:
 

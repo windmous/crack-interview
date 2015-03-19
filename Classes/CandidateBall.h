@@ -13,60 +13,24 @@ public:
 
 	static CandidateBall* create(const std::string normalFilePath,
 		const std::string chosenFilePath,
-		const std::string unavailFilePath)
-	{
-		CandidateBall* widget = new (std::nothrow) CandidateBall();
-		if (widget && widget->init(normalFilePath, chosenFilePath, unavailFilePath))
-		{
-			widget->autorelease();
-			return widget;
-		}
-		CC_SAFE_DELETE(widget);
-		return nullptr;
-	}
+		const std::string unavailFilePath);
 
 	bool init(const std::string normalFilePath,
 		const std::string chosenFilePath,
-		const std::string unavailFilePath) 
-	{
-		if (!Widget::init())
-			return false;
-
-		this->normalBallPath = normalFilePath;
-		this->chosenBallPath = chosenFilePath;
-		this->unavailBallPath = unavailFilePath;
-		state = Available;
-		this->loadTexture(this->normalBallPath);
-		return true;
-	}
+		const std::string unavailFilePath);
 
 	enum BallState {
 		Available,
 		Unavailable,
 	};
 
-	// Set/get ball state
-	inline BallState getBallState() { return state; }
-	inline void setBallState(BallState s) { state = s; }
+	// Get ball state
+	BallState getBallState();
 	
 	// Set ball to normal state
-	bool setToNormal() { 
-		if (getBallState() == BallState::Unavailable)
-			return false;
-		this->loadTexture(normalBallPath); 
-		return true;
-	}
-	bool setToChosen() {
-		if (getBallState() == BallState::Unavailable)
-			return false;
-		this->loadTexture(chosenBallPath);
-		return true;
-	}
-	bool setToUnavail() {
-		this->loadTexture(unavailBallPath);
-		setBallState(BallState::Unavailable);
-		return true;
-	}
+	bool setToNormal();
+	bool setToChosen();
+	bool setToUnavail();
 
 private:
 
@@ -74,6 +38,9 @@ private:
 	std::string normalBallPath;
 	std::string chosenBallPath;
 	std::string unavailBallPath;
+
+	// Set ball state, called from setToXX functions
+	void setBallState(BallState s);
 };
 
 class CandidateBallList : public Layer
@@ -86,7 +53,7 @@ public:
 	Vector<CandidateBall*> candidateBallList;
 
 	// Add candidate ball 
-	bool addCandidateBall(const std::string normalFilePath, 
+	CandidateBall* addCandidateBall(const std::string normalFilePath, 
 		const std::string chosenFilePath, 
 		const std::string unavailFilePath);
 

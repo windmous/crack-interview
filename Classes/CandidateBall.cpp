@@ -1,5 +1,70 @@
 #include "CandidateBall.h"
 
+// Create a candidate ball and initialize it
+CandidateBall* CandidateBall::create(const std::string normalFilePath,
+	const std::string chosenFilePath,
+	const std::string unavailFilePath)
+{
+	CandidateBall* widget = new (std::nothrow) CandidateBall();
+	if (widget && widget->init(normalFilePath, chosenFilePath, unavailFilePath))
+	{
+		widget->autorelease();
+		return widget;
+	}
+	CC_SAFE_DELETE(widget);
+	return nullptr;
+}
+
+// Initialize the params
+bool CandidateBall::init(const std::string normalFilePath,
+	const std::string chosenFilePath,
+	const std::string unavailFilePath)
+{
+	if (!Widget::init()) // this is necessary to initialize pointer
+		return false;
+
+	this->normalBallPath = normalFilePath;
+	this->chosenBallPath = chosenFilePath;
+	this->unavailBallPath = unavailFilePath;
+	state = Available;
+	this->loadTexture(this->normalBallPath);
+	return true;
+}
+
+// Get ball state, Available or Unavailable
+CandidateBall::BallState CandidateBall::getBallState()
+{ 
+	return state; 
+}
+
+// Private: set ball state, called from setToXX functions
+void CandidateBall::setBallState(CandidateBall::BallState s)
+{
+	state = s;
+}
+
+// Set ball state to normal
+bool CandidateBall::setToNormal() 
+{
+	this->loadTexture(normalBallPath);
+	setBallState(Available);
+	return true;
+}
+
+bool CandidateBall::setToChosen() 
+{
+	this->loadTexture(chosenBallPath);
+	setBallState(Available);
+	return true;
+}
+
+bool CandidateBall::setToUnavail() 
+{
+	this->loadTexture(unavailBallPath);
+	setBallState(Unavailable);
+	return true;
+}
+
 bool CandidateBallList::init()
 {
 	auto winSize = Director::getInstance()->getWinSize();
@@ -35,11 +100,17 @@ bool CandidateBallList::init()
 				touchFlag = true;
 				// Change to chosen resource
 				if (candidateBall->getBallState() == CandidateBall::Available)
+				{
 					candidateBall->setToChosen();
+				}
+				else 
+				{
+					// TODO: Optional, show information that this is unavailable
+				}
 
 				log("MessageHUD: %d th candidate contain %f, %f", ballIdx, p.x, p.y);
 
-				// TODO: CHANGE THE STATE
+				// TODO: CHANGE THE GLOBAL STATE
 
 			}
 			else  // Untouched
@@ -59,13 +130,13 @@ bool CandidateBallList::init()
 	return true;
 }
 
-bool CandidateBallList::addCandidateBall(const std::string normalFilePath, 
+CandidateBall* CandidateBallList::addCandidateBall(const std::string normalFilePath, 
 	const std::string chosenFilePath, 
 	const std::string unavailFilePath)
 {
 	// Should not exceed the number of total ball
 	if (getUsedCandidateBall() + 1 >= getTotalAmountCandidateBall())
-		return false;
+		return NULL;
 
 	auto winSize = Director::getInstance()->getWinSize();
 
@@ -85,7 +156,7 @@ bool CandidateBallList::addCandidateBall(const std::string normalFilePath,
 	// Update the usedCandidateBall
 	++usedCandidateBall;
 
-	return true;
+	return candidateBall;
 }
 
 void CandidateBallList::clearCandidateBall()
