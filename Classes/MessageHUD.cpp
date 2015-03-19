@@ -2,7 +2,7 @@
 
 bool MessageHUD::init()
 {
-	auto winSize = Director::getInstance()->getWinSize();
+	//auto winSize = Director::getInstance()->getWinSize();
 
 	// Set background
 	//auto background = Sprite::create("BallGameScene/hudBackground.png");
@@ -16,7 +16,7 @@ bool MessageHUD::init()
 	// Set candidateBallList
 	candidateBallList = CandidateBallList::create();
 	candidateBallList->setAnchorPoint(Point(0.0f, 0.0f));
-	candidateBallList->setPosition(Point(0.0f, winSize.height));
+	candidateBallList->setPosition(Point(0.0f, 0.0f));
 	addChild(candidateBallList, 10);
 
 	return true;
