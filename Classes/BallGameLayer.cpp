@@ -6,7 +6,6 @@ bool BallGameLayer::init()
 	Layer::init();
 
 	auto winSize = Director::getInstance()->getWinSize();
-	setTouchEnabled(true);
 
 	// Set the background
 	auto ui_background = Sprite::create("BallGameScene/ui_background.png");
@@ -21,9 +20,9 @@ bool BallGameLayer::init()
 	addChild(messageHUD, 10);
 
 	// Add candidate ball
-	messageHUD->addCandidateBall("BallGameScene/ball_01.png", "BallGameScene/ball_01_chosen.png");
-	messageHUD->addCandidateBall("BallGameScene/ball_02.png", "BallGameScene/ball_02_chosen.png");
-	messageHUD->addCandidateBall("BallGameScene/ball_03.png", "BallGameScene/ball_03_chosen.png");
+	messageHUD->addCandidateBall("BallGameScene/ball_01.png", "BallGameScene/ball_01_chosen.png", "BallGameScene/ball_unavail.png");
+	messageHUD->addCandidateBall("BallGameScene/ball_02.png", "BallGameScene/ball_02_chosen.png", "BallGameScene/ball_unavail.png");
+	messageHUD->addCandidateBall("BallGameScene/ball_03.png", "BallGameScene/ball_03_chosen.png", "BallGameScene/ball_unavail.png");
 
 	return true;
 }

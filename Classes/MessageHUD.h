@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ui/UIImageView.h"
+#include "CandidateBall.h"
 #include <string>
 #include <vector>
 
@@ -15,46 +16,17 @@ public:
 	bool init();
 	CREATE_FUNC(MessageHUD);
 
+	CandidateBallList* candidateBallList;
 
-	Vector<ui::ImageView *> candidateBallList;
-
-	// Add candidate ball 
-	bool addCandidateBall(const std::string normalFilePath, const std::string chosenFilePath);
-
-	// Clear candidate ball 
-	void clearCandidateBall();
-
-	// Get total available candidate ball
-	inline int getNumCandidateBall(){ return numCandidateBall; }
-
-	// Set total available candidate ball 
-	inline void setNumCandidateBall(int n){ numCandidateBall = n; }
-
-	// Get used candidate ball
-	inline int getUsedCandidateBall() { return usedCandidateBall; }
+	// Add new candidate ball, fail if number of balls exceeds the threshold
+	bool addCandidateBall(const std::string normalFilePath,
+		const std::string chosenFilePath,
+		const std::string unavailFilePath);
 
 private:
 
 	// Total health point
 	int totalHP;
-
-	// Total number of candidate ball
-	int numCandidateBall;
-
-	// Used number of candidate ball
-	int usedCandidateBall;
-
-	// Next x position to place candidate ball
-	float nextXPos;
-
-	// Gap between two candidate ball
-	float gap;
-
-	// Normal candidate ball path
-	std::vector<const std::string> normalBallPathList;
-
-	// Chosen candidate ball path
-	std::vector<const std::string> chosenBallPathList;
 
 };
 
