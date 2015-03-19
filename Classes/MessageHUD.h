@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "ui/UIImageView.h"
 #include <string>
+#include <vector>
 
 USING_NS_CC;
 
@@ -18,7 +19,7 @@ public:
 	Vector<ui::ImageView *> candidateBallList;
 
 	// Add candidate ball 
-	bool addCandidateBall(std::string normalFilePath, std::string chosenFilePath);
+	bool addCandidateBall(const std::string normalFilePath, const std::string chosenFilePath);
 
 	// Clear candidate ball 
 	void clearCandidateBall();
@@ -50,10 +51,10 @@ private:
 	float gap;
 
 	// Normal candidate ball path
-	//Vector<std::string> normalBallPathList;
+	std::vector<const std::string> normalBallPathList;
 
 	// Chosen candidate ball path
-	//Vector<std::string> chosenBallPathList;
+	std::vector<const std::string> chosenBallPathList;
 
 };
 
