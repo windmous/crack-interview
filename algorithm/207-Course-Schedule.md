@@ -109,6 +109,11 @@ private:
 ```
 
 # DFS法(252ms)
+下面的代码中使用了两个数组记录各个node的状态，实际是可以缩为一个的，一共有三种状态：
+1. node从来没有被访问过
+2. node已经被访问
+3. node在栈上，正在接受访问
+
 ```cpp
 class Solution {
 public:
