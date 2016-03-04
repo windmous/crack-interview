@@ -2,13 +2,12 @@
 难度: Medium
 
 - 找字符串中最长的子串，这个子串不含重复字符
-- 难点在于减少对map操作的次数
 
 # 动态规划(16ms)
+在charIndex中记录所有字符上次在s中出现的index，在i向前扫描过程中更新start，保持start和i之间没有重复元素
+时间O(n)，空间O(n)
 
 ```cpp
-\\在charIndex中记录所有字符上次在s中出现的index，在i向前扫描过程中更新start，保持start和i之间没有重复元素
-\\时间O(n)，空间O(n)
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
