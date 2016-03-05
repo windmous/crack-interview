@@ -6,7 +6,7 @@
 # 遍历 16ms
 time o(n), space o(1)
 
-```
+```cpp
 class Solution {
 public:
     string convert(string s, int numRows) {

@@ -26,6 +26,8 @@
 以此类推。
 
 # 搜索
+时间O(N)
+
 28 ms
 ```cpp
 class Solution {
