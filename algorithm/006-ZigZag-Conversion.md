@@ -13,10 +13,10 @@ public:
         if (numRows == 1) return s;
         int len = s.length(), seg = numRows * 2 - 2;
         string res;
-        for (int i = 0; i < len; i += seg) {
+        for (int i = 0; i < len; i += seg) { // 最顶上一行
             res += s[i];
         }
-        for (int bias = 1; bias < numRows - 1; ++bias) {
+        for (int bias = 1; bias < numRows - 1; ++bias) { // 中间每一行
             for (int i = 0; i < len; i += seg) {
                 if (i + bias < len) {
                     res += s[i + bias];
@@ -26,7 +26,7 @@ public:
                 }
             }
         }
-        for (int i = numRows - 1; i < len; i += seg) {
+        for (int i = numRows - 1; i < len; i += seg) { // 最底下那行
             res += s[i];
         }
         return res;
