@@ -20,6 +20,7 @@ public:
 
 # 二分查找 12ms
 
+```cpp
 class Solution {
 public:
 	vector<int> searchRange(vector<int>& nums, int target) {
@@ -51,5 +52,5 @@ public:
 		return first;
 	}
 };
-
+```
 [1]: https://leetcode.com/problems/search-for-a-range/

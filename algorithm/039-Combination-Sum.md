@@ -33,7 +33,7 @@ private:
 
 # 动态规划 44ms
 
-answer[i] 是vector<vector<int>>类型，存的是和为i的所有元素组合
+answer[i] 是`vector<vector<int>>`类型，存的是和为i的所有元素组合
 对于每个候选元素，尽量多地将其塞入answer中
 
 ```cpp
