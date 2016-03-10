@@ -53,5 +53,9 @@ Proof:
 ```
 
 证明2:
+
 ![图1](https://i.imgsafe.org/8de935e.png)
+
 ![图2](https://i.imgsafe.org/90816ce.png)
+
+[1]: https://leetcode.com/problems/largest-number/
