@@ -11,18 +11,18 @@ public:
     bool isMatch(string s, string p) {
         return isMatch(s.c_str(), p.c_str());
     }
-    
+
 private:
     bool isMatch(const char*s, const char* p) {
         if (p[0] == '\0') return s[0] == '\0';
-        
+
         // pattern is not empty
         if (p[1] == '*') {
-			// 首先试试p[0,1]不吞s任何字符行不行，若不行再尝试先吞下s的1个字符
-            return isMatch(s, p + 2) || (!s[0] == '\0' && (s[0] == p[0] || p[0] == '.') && isMatch(s + 1, p));
+            // 首先试试p[0,1]不吞s任何字符行不行，若不行再尝试先吞下s的1个字符
+            return isMatch(s, p + 2) || (s[0] != '\0' && (s[0] == p[0] || p[0] == '.') && isMatch(s + 1, p));
         } else {
-			// 必须吞下一个字符
-            return !s[0] == '\0' && (s[0] == p[0] || p[0] == '.') && isMatch(s + 1, p + 1);
+            // 必须吞下一个字符
+            return s[0] != '\0' && (s[0] == p[0] || p[0] == '.') && isMatch(s + 1, p + 1);
         }
     }
 };
