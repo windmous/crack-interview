@@ -6,7 +6,8 @@
 以下三个答案来源：
 https://leetcode.com/discuss/46668/recursive-iterative-manipulation-solutions-explanations
 
-# dfs
+# dfs 增量构造法
+每次选择放入第i个位置的元素
 ```cpp
 class Solution {
 public:
@@ -60,6 +61,7 @@ public:
 ```
 
 # bit manipulation
+模拟了二进制整数递增的过程中，整数中各个bit的变化频率
 ```
 There is also another a way to visualize this idea. That is, if we use the above example, 1 appears once in every two consecutive subsets, 2 appears twice in every four consecutive subsets, and 3 appears four times in every eight subsets, shown in the following (initially the 8 subsets are all empty):
 
