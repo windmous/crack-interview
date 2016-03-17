@@ -1,7 +1,9 @@
 题目链接: [59.Spiral Matrix II][1]
 难度: Medium
 
-PAT考题，见P54
+给数字n，要求将1~n^2螺旋形地填入矩阵中。
+
+逆问题见P54
 
 ```cpp
 class Solution {

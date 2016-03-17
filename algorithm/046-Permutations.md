@@ -1,7 +1,8 @@
 题目链接: [46.Permutations][1]
 难度: Medium
 
-- 输出一个vector的所有permutation，vector中没有重复元素
+- 输出一个vector的所有permutation，vector中没有重复元素。
+- 这道题只要求得到所有的permutation，没有要求输出的permutation是排好序的，dfs解法的输出就是没有排序的结果。
 
 # 调用next_permutation 16ms
 

@@ -56,7 +56,7 @@ public:
     {
         if (num.empty()) return;
 
-        // in reverse order, find the first number which is in increasing trend (we call it violated number here)
+        // in reverse order, find the first number which is in decreasing trend (we call it violated number here)
         int i;
         for (i = num.size()-2; i >= 0; --i)
         {

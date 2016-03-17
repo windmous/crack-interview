@@ -2,7 +2,9 @@
 难度: Medium
 
 给一个m*n的矩阵，如果某个元素是0，将其所在行和列都设为0，要求：
+
 1. do it in place
+
 2. need a constant space solution
 
 # O（1）space

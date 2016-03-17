@@ -6,6 +6,7 @@
 # 动态规划
 
 https://leetcode.com/discuss/20240/share-my-dp-solution
+
 维护left，right和height三个滚动数组，各自的意义与规则：
 ```
 left(i,j) = max(left(i-1,j), curleft), curleft can be determined from the current row

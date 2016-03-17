@@ -1,7 +1,7 @@
 题目链接: [54.Spiral Matrix][1]
 难度: Medium
 
-PAT考题
+按照螺旋形状读取矩阵的各个元素，起点是左上角，开始方向向右。
 
 ```cpp
 public class Solution {

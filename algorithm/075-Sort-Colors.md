@@ -21,8 +21,9 @@ public:
 ```
 
 这个代码和algs 4是一样的：
-[   <v   ][lt   =v    ][k  待划分  gt][   >v   ]
 ```cpp
+// [   <v   ][lt   =v    ][k  待划分  gt][   >v   ]
+
 class Solution {
 public:
     void sortColors(int A[], int n) {
@@ -38,6 +39,10 @@ public:
 ```
 
 # 三指针pioneer方案
+
+这个代码的想法挺有意思的，原理是利用2,1,0赋值顺序的先后，覆盖掉之前的结果。
+
+不过这个方法是伪1-pass的，因为n2，n1，n0实质上都（部分）遍历了整个数组。
 
 ```cpp
 // one pass in place solution

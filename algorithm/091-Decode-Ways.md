@@ -1,10 +1,12 @@
 题目链接: [91.Decode Ways][1]
 难度: Medium
 
+```
 'A' -> 1
 'B' -> 2
 ...
 'Z' -> 26
+```
 
 Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 
