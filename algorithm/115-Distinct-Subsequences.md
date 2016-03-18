@@ -34,7 +34,9 @@ int numDistinct(string S, string T) {
     if (m > n) return 0;    // impossible for subsequence
     vector<vector<int>> path(m+1, vector<int>(n+1, 0));
     for (int k = 0; k <= n; k++) path[0][k] = 1;    // initialization
-
+	// 此处初始化的原因还是值得想一下的。path[0][k]表示用t的“空”来匹配s[0...k-1]的方案数
+	// 若t[0]==s[k]，利用了s[k]的方案只有1，所以应该初始化为1
+	
     for (int j = 1; j <= n; j++) {
         for (int i = 1; i <= m; i++) {
             path[i][j] = path[i][j-1] + (T[i-1] == S[j-1] ? path[i-1][j-1] : 0);

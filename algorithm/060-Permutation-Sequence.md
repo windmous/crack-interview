@@ -7,10 +7,12 @@ say n = 4, you have {1, 2, 3, 4}
 
 If you were to list out all the permutations you have
 
+```
 1 + (permutations of 2, 3, 4) 
 2 + (permutations of 1, 3, 4) 
 3 + (permutations of 1, 2, 4) 
 4 + (permutations of 1, 2, 3)
+```
 
 # 0ms
 

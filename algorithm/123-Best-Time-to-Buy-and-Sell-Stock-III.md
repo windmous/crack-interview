@@ -4,13 +4,16 @@
 给定股票的每日价格。
 
 P121 只允许交易一笔，求最高利益。
+
 P122 允许交易多笔，但是各笔交易不允许重叠，求最高利益。
+
 P123 只允许交易至多两笔，求最高利益。
+
 P188 只允许交易至多K笔，求最高利益。
 
 # 简单动态规划，O(n), O(n)
 
-soul machine 中的解法。虽然需要很多趟，也不容易拓展，但是个人认为可读性高。
+soul machine 中的解法。虽然需要3趟，也不容易拓展成k笔，但是个人认为可读性高。
 
 ```cpp
 class Solution {
@@ -68,9 +71,19 @@ public class Solution {
 
 # 动态规划
 
-???
-
 https://leetcode.com/discuss/15153/a-clean-dp-solution-which-generalizes-to-k-transactions
+
+这个解答很给力，拓展性也很好，但是用在P188时会超时，原因是P188中有k特别大的特殊情况，此时需要做个优化，当k>=天数/2的时候，问题退化成P122，允许交易任意多笔。
+
+这个是原作者给的答案，其中的tmpMax并不是很直观，有人在评论中加上备注：
+```
+// dpProfit[t][i]: maximum Profit using at most t transactions up to day i (including day i)
+// dpProfit[t][i] = max(dpProfit[t][i - 1], prices[i] - prices[j] + dpProfit[t - 1][j]) for all j in range [0, i - 1]
+//                = max(dpProfit[t][i - 1], prices[i] + max(dpProfit[t - 1][j] - prices[j])) for all j in range [0, i - 1]
+//                = max(dpProfit[t][i - 1], prices[i] + max prev [t - 1] trans profit at the corresponding j in range [0, i - 1] less price at j)
+//                                                      maxPreProfitLessI inside loop iterations
+//                                                      Note: subtracting price at j is for the last additional transaction to sell at day i
+```
 
 ```cpp
 class Solution {
@@ -100,6 +113,25 @@ public:
 };
 ```
 
+有评论说maxProf没有必要，直接返回`f[K][prices.size()-1]`即可。jianchao.li.fighter给出了对应的解：
 
+```cpp
+class Solution { 
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size(), num = 2;
+        if (n <= 1) return 0;
+        vector<vector<int> > dp(num + 1, vector<int>(n, 0));
+        for (int k = 1; k <= num; k++) {
+            int temp = dp[k - 1][0] - prices[0];
+            for (int i = 1; i < n; i++) {
+                dp[k][i] = max(dp[k][i - 1], prices[i] + temp);
+                temp = max(temp, dp[k - 1][i] - prices[i]);
+            }
+        }
+        return dp[num][n - 1];
+    } 
+};
+```
 
 [1]: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/

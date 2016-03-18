@@ -7,7 +7,9 @@
 
 https://leetcode.com/discuss/10924/share-my-code-with-o-n-time-and-o-1-space
 
-非常机智的一个想法，在递归的过程中移动了list指针，使其正好匹配递归时刻的根节点位置。时间复杂度确实是O(n)，但是空间复杂度应该是栈空间对应的O(log n)，作者分析错了。
+非常机智的一个想法，本质是中序遍历，在递归的过程中移动了list指针，使其正好匹配递归时刻的根节点位置。时间复杂度确实是O(n)，但是空间复杂度应该是栈空间对应的O(log n)，作者分析错了。
+
+另一个角度想，可以先建好二叉树的结构，然后再中序遍历此树，遍历的过程中将值填入树中。作者只不过是将这两个过程合并一块完成。
 
 soul machine中也有此方法。
 
@@ -27,10 +29,10 @@ public:
     TreeNode *generate(int n){
         if (n == 0)
             return NULL;
-        TreeNode *node = new TreeNode(0);
+        TreeNode *node = new TreeNode(0); // 暂时赋值为0
         node->left = generate(n / 2);
-        node->val = list->val;
-        list = list->next;
+        node->val = list->val;			  // 此处再修改值
+        list = list->next; 	
         node->right = generate(n - n / 2 - 1);
         return node;
     }

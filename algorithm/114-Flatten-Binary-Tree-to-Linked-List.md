@@ -56,7 +56,7 @@ public:
 
 https://leetcode.com/discuss/13054/share-my-simple-non-recursive-solution-o-1-space-complexity
 
-借鉴了Morris traversal的思想，非常巧妙的想法。
+借鉴了Morris traversal的思想，非常巧妙的想法。将“左子树展开成链表的最后一个元素的right指针”直接指向右子树的根，注意我们只是需要找到“左子树展开成链表的最后一个元素”的位置即可，找的时候不需要将左子树扁平化。所有扁平化的工作都在while循环中完成，这是其巧妙之处。
 
 ```cpp
 class Solution {
