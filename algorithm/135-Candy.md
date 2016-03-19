@@ -1,4 +1,75 @@
 题目链接: [135.Candy][1]
 难度: Hard
 
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+
+注意，相同rating的孩子可以不必分配相同的糖果
+
+# 两次遍历法(40ms)
+时间复杂度：O(N)
+空间复杂度：O(N)
+
+```cpp
+class Solution {
+public:
+    int candy(vector<int> &ratings) {
+    	const int N = ratings.size();
+        vector<int> result(ratings.size());
+        for (int i = 1; i < N ; ++ i) {
+            if (ratings[i] > ratings[i - 1])
+                result[i] = result[i - 1] + 1;
+        }
+        
+        for (int i = N - 2; i >= 0; -- i) {
+            if (ratings[i] > ratings[i + 1]) 
+                result[i] = max(result[i], result[i + 1] + 1);
+        }
+        
+        return accumulate(result.begin(), result.end(), ratings.size());
+    }
+};
+```
+
+# 单次遍历法
+时间复杂度：O(N)
+空间复杂度：O(1)
+
+我们知道rating值逐渐变大的过程，可以计算一个峰顶的左半边高度，但是却无法计算右半边高度。于是，我们转而在下坡到底的时候再计算下坡所分的糖果数。详细注释参考[这里][2]
+
+```cpp
+class Solution {
+public:
+    int candy(vector<int> &ratings) {
+    	if (ratings.empty()) return 0;
+    	// prev: 前一个上坡的高度
+    	// countDown: 下坡的高度
+    	// total: 最终答案
+        int total = 1, prev = 1, countDown = 0;
+        for (int i = 1; i < ratings.size(); i++) {
+            if (ratings[i] >= ratings[i-1]) {	// 出现转折时计算前一个下坡的情形
+                if (countDown > 0) {
+                    total += countDown*(countDown+1)/2; // arithmetic progression
+                    if (countDown >= prev) total += countDown - prev + 1;
+                    countDown = 0;
+                    prev = 1;
+                }
+                prev = ratings[i] == ratings[i-1] ? 1 : prev+1;
+                total += prev;
+            } else countDown++;
+        }
+        if (countDown > 0) { // if we were descending at the end
+            total += countDown*(countDown+1)/2;
+            if (countDown >= prev) total += countDown - prev + 1;
+        }
+        return total;
+    }
+};
+```
+
+
+
 [1]: https://leetcode.com/problems/candy/
+[2]: https://leetcode.com/discuss/23835/one-pass-constant-space-java-solution
