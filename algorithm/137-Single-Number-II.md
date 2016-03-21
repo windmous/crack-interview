@@ -11,7 +11,9 @@ public int singleNumber(int[] A) {
         ones = (ones ^ A[i]) & ~twos;
         twos = (twos ^ A[i]) & ~ones;
     }
-    return ones;
+	//return ones;      // 假如目标元素只出现一次
+	//return twos;      // 假如目标元素只出现两次
+    return ones | two;  // 假如目标元素出现1次或2次
 }
 ```
 

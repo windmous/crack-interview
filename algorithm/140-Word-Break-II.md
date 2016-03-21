@@ -47,8 +47,11 @@ public:
 class Solution {
 public:
     vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
-        unordered_map<int, vector<string>> memo {{s.size(), {""}}}; // 注意终结符
-        
+        //unordered_map<int, vector<string>> memo {{s.size(), {""}}}; 
+		//                                            ^
+		// error C2398: Element '1': conversion from 'unsigned int' to 'const int &' requires a narrowing conversion
+        unordered_map<int, vector<string>> memo{ make_pair<int, vector<string>>( s.size(), { "" } ) }; // 注意终结符
+
         // 必须为sentences提供类型，否则无法调用自身。
         function<vector<string>(int)> sentences = [&](int i) {
             if (!memo.count(i))

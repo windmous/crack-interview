@@ -29,4 +29,28 @@ public:
 };
 ```
 
+# 上述方法的另一版本
+
+vector只存合法的结尾
+
+```cpp
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string>& wordDict) {
+        vector<int> goodEnd = {0};
+
+        for (int i = 1; i <= s.size(); ++ i) {
+            for (auto e : goodEnd) { // 改为rbegin到rend遍历可以提速，因为词典多数单词都较短
+                if (wordDict.find(s.substr(e, i-e)) != wordDict.end()) {
+                    goodEnd.push_back(i);
+                    break;
+                }
+            }
+        }
+
+        return goodEnd.back() == s.size();
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/word-break/

@@ -19,8 +19,8 @@ public:
         return subs; 
     }
     void genSubsets(vector<int>& nums, int start, vector<int>& sub, vector<vector<int>>& subs) {
-        subs.push_back(sub);
-        for (int i = start; i < nums.size(); i++) {
+        subs.push_back(sub);  // 此处将还没放入第i个元素的子集放入答案中
+        for (int i = start; i < nums.size(); i++) { // 遍历可以放入第i个位置的元素
             sub.push_back(nums[i]);
             genSubsets(nums, i + 1, sub, subs);
             sub.pop_back();

@@ -132,4 +132,34 @@ public:
     }
 };
 ```
+
+# 基数排序-二进制版本（32ms）
+
+时间复杂度：O(N * log_2MAX_INT)
+
+空间复杂度：O(N)
+```cpp
+class Solution {
+public:
+    int maximumGap(vector<int>& nums) {
+        int len = nums.size();
+        if (len < 2) return 0;
+        vector<int> nums2(len);
+        
+        // radix sort
+        for (int i = 0; i < 32; ++i) {
+            int idx = 0;
+            for (auto& num : nums) if ((num & (1 << i)) == 0) nums2[idx++] = num;
+            for (auto& num : nums) if ((num & (1 << i)) != 0) nums2[idx++] = num;
+            swap(nums, nums2);
+        }
+        
+        int ans = 0;
+        for (int i = 1; i < len; ++i) 
+            ans = max(ans, nums[i] - nums[i - 1]);
+        
+        return ans;
+    }
+};
+```
 [1]: https://leetcode.com/problems/maximum-gap/

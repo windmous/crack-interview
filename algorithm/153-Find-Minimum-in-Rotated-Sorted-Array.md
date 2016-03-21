@@ -7,12 +7,12 @@
 时间复杂度：O(logN)
 空间复杂度：O(1)
 
-```
+```cpp
 class Solution {
 public:
     int findMin(vector<int>& nums) {
         int low = 0, high = nums.size() - 1;
-        while (low < high && nums[low] >= nums[high]) {
+        while (low < high && nums[low] >= nums[high]) { // 循环不变量：转折点在nums[low..high]之中
             const int mid = low + (high - low) / 2;
             if (nums[mid] >= nums[high]) {
                 low = mid + 1;

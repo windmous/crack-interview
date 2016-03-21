@@ -1,7 +1,7 @@
 题目链接: [56.Merge Intervals][1]
 难度: Hard
 
-排序之后都好办
+排序之后都好办。注意P56的排序准则和P57的不一样，P56是按照每个interval的start大小来排序。
 
 ```cpp
 vector<Interval> merge(vector<Interval>& ins) {

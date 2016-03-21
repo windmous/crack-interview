@@ -1,7 +1,7 @@
 题目链接: [151.Reverse Words in a String][1]
 难度: Medium
 
-描述：给定一个单词串，将各个单词出现的次序反过来。中间的空格全部压缩为1个。
+描述：给定一个单词串，将各个单词出现的次序反过来。单词间若有多个空格则压缩为1个。去掉首尾多于空格。
 
 Given s = "the sky is blue",
 return "blue is sky the".
