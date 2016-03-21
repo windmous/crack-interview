@@ -5,6 +5,50 @@
 - 二分查找较短队列的第t个数，另一个队列对应的数是第k-t，直到第一条队列的前t个数和第二条队列的前k-t个数共同构成的“左半边队列”，小于剩下的“右半边队列”
 - 特殊情况是i搜到最左或最右时的处理
 
+# 二分查找(36ms)
+时O(log(min(m, n)))，空O(1)
+
+```cpp
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int total = nums1.size() + nums2.size();
+        if (total & 0x1) {
+            return find_kth(nums1, nums2, total / 2 + 1);
+        } else {
+            return (find_kth(nums1, nums2, total / 2) + 
+                    find_kth(nums1, nums2, total / 2 + 1)) * .5;
+        }
+    }
+    
+private:
+    static int find_kth(vector<int> &nums1, vector<int> &nums2, int K) {
+        const int n1 = nums1.size(), n2 = nums2.size();
+        if (n1 > n2) return find_kth(nums2, nums1, K);
+        int low = 0, high = n1;
+        
+        while (low <= high) {
+            // 小心[0],[0]的情况，K=2
+            int i = max((low + high) / 2, K - n2);
+            int j = K - i;
+            
+            if (j > 0 && i < n1 && nums2[j-1] > nums1[i]) {
+                low = i + 1; 
+            } else if (i > 0 && j < n2 && nums1[i - 1] > nums2[j]) {
+                high = i - 1;
+            } else {
+                int ans;
+                if (i == 0) ans = nums2[j - 1];
+                else if (j == 0) ans = nums1[i - 1];
+                else ans = max(nums1[i-1], nums2[j-1]);
+                
+                return ans;
+            }
+        }
+    }
+};
+```
+
 # 二分查找  44ms 
 时O(log(min(m, n)))，空O(1)
 
