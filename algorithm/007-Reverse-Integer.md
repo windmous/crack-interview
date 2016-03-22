@@ -31,7 +31,8 @@ public:
 class Solution {
 public:
     int reverse(int x) {
-        long long lx = x > 0 ? x : -x; // 用了一种更大类型的容器来存
+        // 用x >= 0 ? x : -x会导致溢出
+        long long lx = abs(static_cast<long long>(x));
         long long res = 0;
         while (lx > 0) {
             res = res * 10 + lx % 10;

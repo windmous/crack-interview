@@ -4,31 +4,38 @@
 - 将一串电话号码转为手机按键对应的所有可能字符串
 - dfs递归很容易，但要提高效率就得考虑递归展开
 
-# 迭代（非递归）
+# 迭代（非递归）(0ms)
 时间O(3^N)
 
-0ms
 ```cpp
-vector<string> letterCombinations(string digits) {
-    vector<string> result;
-    if(digits.empty()) return vector<string>();
-    static const vector<string> v = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    result.push_back("");   // add a seed for the initial case
-    for(int i = 0 ; i < digits.size(); ++i) {
-        int num = digits[i]-'0';
-        if(num < 0 || num > 9) break;
-        const string& candidate = v[num];
-        if(candidate.empty()) continue;
-        vector<string> tmp;
-        for(int j = 0 ; j < candidate.size() ; ++j) {
-            for(int k = 0 ; k < result.size() ; ++k) {
-                tmp.push_back(result[k] + candidate[j]);
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        static const vector<string> v = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        
+        vector<string> result;
+        for (const char c : digits) {
+            if (!isdigit(c)) break;
+            
+            string candidate = v[c-'0'];
+            vector<string> tmp;
+            
+            if (result.empty()) {
+                transform(candidate.begin(), candidate.end(), back_inserter(tmp),
+                                [](char c) {return string(1, c);});
+            } else {
+                for (const string &str : result) {
+                    transform(candidate.begin(), candidate.end(), back_inserter(tmp),
+                                [&str](char c) {return str + c;});
+                }
             }
+            
+            swap(tmp, result);
         }
-        result.swap(tmp); // swap提高了效率
+        
+        return result;
     }
-    return result;
-}
+};
 ```
 
 [1]: https://leetcode.com/problems/letter-combinations-of-a-phone-number/

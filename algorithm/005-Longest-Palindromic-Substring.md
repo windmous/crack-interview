@@ -36,6 +36,41 @@ public:
 
 ```
 
+# 暴力2(4ms)
+更容易理解的代码，速度也更胜一筹。
+
+```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int max_len = 0, max_start = 0;
+        const int N = s.size();
+        
+        for (int i = 0; i < s.size(); ) {
+            if (N - i <= max_len/2) break;
+            int k = i+1, j = i-1;
+            
+            while  (k < N && s[k-1] == s[k])
+                ++ k;
+            i = k;
+            
+            while (k < N && j >= 0 && s[k] == s[j]) {
+                j --;
+                k ++;
+            }
+            
+            int new_len = k - j - 1;
+            if (new_len > max_len) {
+                max_start = j + 1;
+                max_len = new_len;
+            }
+        }
+        
+        return s.substr(max_start, max_len);
+    }
+};
+```
+
 # Manacherą's Algorithm
 时间O(n), 空间O(n)
 

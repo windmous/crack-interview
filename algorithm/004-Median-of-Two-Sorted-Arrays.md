@@ -29,7 +29,7 @@ private:
         
         while (low <= high) {
             // 小心[0],[0]的情况，K=2
-            int i = max((low + high) / 2, K - n2);
+            int i = max(low + (high - low) / 2, K - n2);
             int j = K - i;
             
             if (j > 0 && i < n1 && nums2[j-1] > nums1[i]) {

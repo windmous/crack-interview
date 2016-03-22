@@ -10,7 +10,7 @@ class Solution {
 public:
     bool isValid(string s) {
         stack<char> paren;
-        for (auto& c : s) {
+        for (auto c : s) {
             switch (c) {
                 case '(': 
                 case '{': 

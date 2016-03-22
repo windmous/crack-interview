@@ -38,4 +38,25 @@ string countAndSay(int n) {
 }
 ```
 
+# 简洁写法(4ms)
+```cpp
+class Solution {
+public:
+    string countAndSay(int n) {
+        string result = "1";
+        while (--n) {
+            string cur;
+            for (auto i = result.begin(); i != result.end();) {
+                auto cnt = find_if(i + 1, result.end(), [i](char x) {return x != *i;}) - i;
+                cur += std::to_string(cnt) + *i;
+                i += cnt;
+            }
+            result = cur;
+        }
+        
+        return result;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/count-and-say/
