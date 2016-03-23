@@ -6,7 +6,7 @@
 # DFS
 时间复杂度：O(3^N)
 
-```
+```cpp
 class Solution {
 public:
     vector<string> addOperators(string num, int target) {
@@ -37,6 +37,49 @@ public:
             }
         }
     }
+};
+```
+
+# DFS2 
+时间复杂度：O(4^N)
+
+dfs中途的求值结果可以表达为A+B*C的形式。假设下一个数字是n
+```
+初始状态：A + B * C = 0 + 1 * n
+
+中间状态：
+
+1） 新数并入前一个数： A + B * C := A       + B     * Cn
+2） 加上新数：         A + B * C := (A+B*C) + 1     * n
+3） 减去新数：         A + B * C := (A+B*C) - 1     * n
+4)  乘以新数：         A + B * C := A       + (B*C) * n
+```
+```cpp
+class Solution {
+private:
+	void dfs(long long A, long long B, long long C, 
+	         string&& path, int level, string& num, long long target, vector<string>& answer) {
+		if (level == num.length()) {
+			if (A + B * C == target) answer.push_back(path);
+		}
+		else {
+			if (C != 0) 
+			    dfs(    A,     B, C * 10 + num[level] - '0',       path + num[level], level + 1, num, target, answer);
+			dfs(A + B * C,     1,          num[level] - '0', path + "+" + num[level], level + 1, num, target, answer);
+			dfs(A + B * C,    -1,          num[level] - '0', path + "-" + num[level], level + 1, num, target, answer);
+			dfs(        A, B * C,          num[level] - '0', path + "*" + num[level], level + 1, num, target, answer);
+		}
+	}
+
+
+public:
+	vector<string> addOperators(string num, int target) {
+		vector<string> answer;
+		if (num.length() != 0)
+			dfs(0, 1, num[0] - '0', num.substr(0, 1), 1, num, target, answer);
+					
+		return answer;
+	}
 };
 ```
 [1]: https://leetcode.com/problems/expression-add-operators/
