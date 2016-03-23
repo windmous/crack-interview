@@ -4,34 +4,36 @@
 - 匹配字符串与pattern，pattern中除字符外可包含`?`（匹配一个字符）与`*`（匹配多个字符）
 - 与10. regular expression matching不同之处在于正则表达式中的`*`是其前面字符出现多次的意思，这里的`*`表示匹配任意个字符
 
-# O(length(string) + length(pattern)) 时间，O（1）空间，16 ms
+# O(length(string) * length(pattern)) 时间，O(1)空间，16 ms
 
 ```cpp
-bool isMatch(const char *s, const char *p) {
-	const char* star=NULL;
-	const char* ss=s;
-	while (*s){
-		//advancing both pointers when (both characters match) or ('?' found in pattern)
-		//note that *p will not advance beyond its length 
-		if ((*p=='?')||(*p==*s)){s++;p++;continue;} 
-
-		// * found in pattern, track index of *, only advancing pattern pointer 
-		if (*p=='*'){star=p++; ss=s;continue;}  // star记录`*`的坐标，ss是这个`*`待匹配的串的起点
-
-		//current characters didn't match, last pattern pointer was *, current pattern pointer is not *
-		//only advancing pattern pointer
-		if (star){ p = star+1; s=++ss;continue;}  // star记录的`*`吃下ss待匹配串的一个字符
-
-	   //current pattern pointer is not star, last patter pointer was not *
-	   //characters do not match
-		return false;
-	}
-
-    //check for remaining characters in pattern
-	while (*p=='*'){p++;}
-
-	return !*p;  
-}
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        // next_start记录匹配失败后应该回溯到哪个位置开始
+        int star = -1, next_start;
+        int i = 0, j = 0;
+        while (i < s.size()) {
+            if (p[j] == '?' || s[i] == p[j]) {
+                i ++;   // 常规匹配
+                j ++;
+            } else if (p[j] == '*') {
+                star = j ++;
+                // 下次应该让*吞掉一个字符
+                next_start = i + 1; 
+            } else if (star >= 0) { // 匹配失败，回溯
+                // 下次要让*吞掉更多字符
+                i = next_start ++;
+                j = star + 1;
+            } else {
+                return false;
+            }
+        }
+        
+        while (p[j] == '*') ++ j;
+        return j == p.size();
+    }
+};
 ```
 
 # 动态规划 256 ms

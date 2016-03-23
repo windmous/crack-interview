@@ -5,6 +5,40 @@
 
 逆问题见P54
 
+# 简洁写法(4ms)
+
+写入的轨迹总是正方形，所以不可能出现一个横条或者一个竖条的情况，故而第3个和第4个循环那里不用加判断。
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result(n, vector<int>(n));
+        
+        for (int i = 0, no = 1; no <= n*n; ++ i) {
+            for (int j = i; j < n-i; ++ j) {
+                result[i][j] = no ++;
+            }
+            
+            for (int j = i + 1; j < n - i; ++ j) {
+                result[j][n-i-1] = no ++;
+            }
+            
+            for (int j = n-i-2; j >= i; -- j) {
+                result[n-i-1][j] = no ++;
+            }
+            
+            for (int j = n-i-2; j >= i+1; -- j) {
+                result[j][i] = no ++;
+            }
+        }
+        
+        return result;
+    }
+};
+```
+
+# Archive
 ```cpp
 class Solution {
     public:

@@ -3,16 +3,18 @@
 
 # 二分法 O(LOG N)
 8ms
+
+
 ```cpp
 class Solution {
 public:
     int mySqrt(int x) {
-		if (x < 2) return x;
+		if (x < 2) return x; 	// 注意特判，否则无穷循环。
         int left = 1, right = x;
 
         while(true) {
             const int mid = left + (right - left) / 2;
-            if (mid > x / mid)  
+            if (mid > x / mid)  // 注意用除法，否则容易溢出
 				right = mid - 1;
 			else {
 				// mid是sqrt(x)的条件：mid * mid <= x < (mid+1) * (mid+1)

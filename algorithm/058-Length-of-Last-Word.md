@@ -7,6 +7,16 @@ Given s = "Hello World",
 return 5.
 
 ```cpp
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        auto start = find_if(s.rbegin(), s.rend(), [](char c) {return c != ' ';});
+        return distance(start, find(start, s.rend(), ' '));
+    }
+};
+```
+
+```cpp
 int lengthOfLastWord(string s) {
   int count =0;
   for(int i = s.size()-1; i >= 0 ;i--) {
