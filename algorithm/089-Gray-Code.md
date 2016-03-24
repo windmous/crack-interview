@@ -52,4 +52,23 @@ vector<int> grayCode(int n)
 }
 ```
 
+```cpp
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> result = {0};
+        result.reserve(1<<n);
+        
+        for (int i = 0; i < n; ++ i) {
+            int high_bit = 1 << i;
+            for (int j = result.size()-1; j >= 0; -- j) {
+                result.push_back(result[j] | high_bit);
+            }
+        }
+        
+        return result;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/gray-code/

@@ -27,4 +27,70 @@ public:
 };
 ```
 
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *pre = &dummy, *cur = head;
+        
+        while (cur) {
+            while (cur->next && cur->val == cur->next->val) {
+                cur = cur->next;
+            }
+            
+            if (pre->next == cur) {
+                cur = cur->next;
+                pre = pre->next;
+            } else {
+                cur = cur->next;
+                while (pre->next != cur) {
+                    ListNode *tmp = pre->next->next;
+                    delete pre->next;
+                    pre->next = tmp;
+                }
+            }
+        }
+        
+        return dummy.next;
+    }
+};
+```
+
+## 指针的指针法(12ms)
+```cpp
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode **pre = &head;
+        ListNode *cur = head;
+        while (cur) {
+            while (cur->next && cur->val == cur->next->val) {
+                cur = cur->next;
+            }
+            
+            if (*pre == cur) {
+                *pre = cur;
+                pre = &((*pre)->next);
+            } else {
+                *pre = cur->next;
+            }
+            
+            cur = cur->next;
+        }
+        
+        return head;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/

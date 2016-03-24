@@ -19,25 +19,32 @@ o                         o <-3
 ```cpp
 class Solution {
 public:
-  bool search(int A[], int n, int target) {
-    int lo =0, hi = n-1;
-    int mid = 0;
-    while(lo<hi){
-          mid=(lo+hi)/2;
-          if(A[mid]==target) return true;
-          if(A[mid]>A[hi]){ // 情况2
-              if(A[mid]>target && A[lo] <= target) hi = mid;
-              else lo = mid + 1;
-          }else if(A[mid] < A[hi]){  // 情况1、3
-              if(A[mid]<target && A[hi] >= target) lo = mid + 1;
-              else hi = mid;
-          }else{ // A[mid] == A[hi]，此时不知道该往哪边走，试考虑1151111和1111511找5的情况
-              hi--;
-          }
-
+    bool search(vector<int>& nums, int target) {
+        int low = 0, high = nums.size();
+        while (low < high) {
+            const int mid = low + (high - low) / 2;
+            if (target == nums[mid]) {
+                return true;
+            }
+            
+            if (nums[low] < nums[mid]) {
+                if (nums[low] <= target && target < nums[mid]) {
+                    high = mid;
+                } else {
+                    low = mid + 1;
+                }
+            } else if (nums[low] > nums[mid]) {
+                if (nums[mid] < target && target <= nums[high-1]) {
+                    low = mid + 1;
+                } else {
+                    high = mid;
+                }
+            } else {
+                ++ low;
+            }
+        }
+        return false;
     }
-    return A[lo] == target ? true : false;
-  }
 };
 ```
 
