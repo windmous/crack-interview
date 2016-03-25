@@ -21,28 +21,25 @@
 0 # 3  #
 ```
 
-# 二分法
+# 二分法 (16ms)
 ```cpp
 class Solution {
 public:
-    TreeNode *sortedArrayToBST(vector<int> &num) {
-        if(num.size() == 0) return NULL;
-        if(num.size() == 1)
-        {
-            return new TreeNode(num[0]);
-        }
-
-        int middle = num.size()/2;
-        TreeNode* root = new TreeNode(num[middle]);
-
-        vector<int> leftInts(num.begin(), num.begin()+middle);
-        vector<int> rightInts(num.begin()+middle+1, num.end());
-
-        root->left = sortedArrayToBST(leftInts);
-        root->right = sortedArrayToBST(rightInts);
-
-        return root;
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return solve(nums.begin(), nums.end());
     }
+    
+    template <typename Iterator>    
+    TreeNode *solve(Iterator start, Iterator end) {
+        if (start == end) return nullptr;
+        
+        auto mid = start + distance(start, end) / 2;
+        TreeNode *root = new TreeNode(*mid);
+        root->left = solve(start, mid);
+        root->right = solve(mid+1, end);
+        
+        return root;
+    }   
 };
 ```
 [1]: https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/

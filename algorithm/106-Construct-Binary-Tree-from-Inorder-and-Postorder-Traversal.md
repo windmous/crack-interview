@@ -2,33 +2,50 @@
 难度: Medium
 
 
-# 递归
+# 递归(36ms)
 
-https://leetcode.com/discuss/10961/my-recursive-java-code-with-o-n-time-and-o-n-space
+之前使用了java版本
+// https://leetcode.com/discuss/10961/my-recursive-java-code-with-o-n-time-and-o-n-space
 
-java代码
-```java
-public TreeNode buildTreePostIn(int[] inorder, int[] postorder) {
-    if (inorder == null || postorder == null || inorder.length != postorder.length)
-        return null;
-    HashMap<Integer, Integer> hm = new HashMap<Integer,Integer>(); // 牺牲O(N)空间来快速实现原本需要O(N)的查找操作
-    for (int i=0;i<inorder.length;++i)
-        hm.put(inorder[i], i);
-    return buildTreePostIn(inorder, 0, inorder.length-1, postorder, 0, 
-                          postorder.length-1,hm);
-}
 
-private TreeNode buildTreePostIn(int[] inorder, int is, int ie, int[] postorder, int ps, int pe, 
-                                 HashMap<Integer,Integer> hm){
-    if (ps>pe || is>ie) return null;
-    TreeNode root = new TreeNode(postorder[pe]);
-    int ri = hm.get(postorder[pe]);
-    TreeNode leftchild = buildTreePostIn(inorder, is, ri-1, postorder, ps, ps+ri-is-1, hm);
-    TreeNode rightchild = buildTreePostIn(inorder,ri+1, ie, postorder, ps+ri-is, pe-1, hm);
-    root.left = leftchild;
-    root.right = rightchild;
-    return root;
-}
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        if (inorder.empty() || inorder.size() != postorder.size()) return nullptr;
+        return solve(0, 0, postorder.size()-1, inorder, postorder);
+    }
+    
+    TreeNode* solve(int in_start, int post_start, int post_end, 
+        const vector<int> &inorder, const vector<int> &postorder) {
+        if (post_start > post_end) {
+            return nullptr;
+        }
+        
+        TreeNode *root = new TreeNode(postorder[post_end]);
+        int root_in;
+        for (int i = in_start; ; ++ i) {
+            if (root->val == inorder[i]) {
+                root_in = i;
+                break;
+            }
+        }
+        
+        const int len_left = root_in - in_start;
+        root->left = solve(in_start, post_start, post_start+len_left-1, inorder, postorder);
+        root->right = solve(root_in+1, post_start+len_left, post_end-1, inorder, postorder);
+        return root;
+    }
+};
 ```
 
 # 非递归

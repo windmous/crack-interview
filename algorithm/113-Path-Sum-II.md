@@ -22,8 +22,10 @@ private:
         path.push_back(node -> val);
         if (!(node -> left) && !(node -> right) && sum == node -> val)
             paths.push_back(path);
-        findPaths(node -> left, sum - node -> val, path, paths);
-        findPaths(node -> right, sum - node -> val, path, paths);
+        else {
+           findPaths(node -> left, sum - node -> val, path, paths);
+            findPaths(node -> right, sum - node -> val, path, paths);
+        }
         path.pop_back();
     }
 };

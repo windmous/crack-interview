@@ -16,30 +16,30 @@ P188 只允许交易至多K笔，求最高利益。
 soul machine 中的解法。虽然需要3趟，也不容易拓展成k笔，但是个人认为可读性高。
 
 ```cpp
+
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         if (prices.size() < 2) return 0;
-
-        const int n = prices.size();
-        vector<int> f(n, 0);
-        vector<int> g(n, 0);
-
-        for (int i = 1, valley = prices[0]; i < n; ++i) {
+        vector<int> left(prices.size(), 0);
+        vector<int> right(prices.size(), 0);
+        
+        for (int i=1, valley=prices[0]; i < prices.size(); ++ i) {
+            left[i] = max(left[i-1], prices[i] - valley);
             valley = min(valley, prices[i]);
-            f[i] = max(f[i - 1], prices[i] - valley);
         }
-
-        for (int i = n - 2, peak = prices[n - 1]; i >= 0; --i) {
+        
+        for (int i=prices.size()-2, peak=prices.back(); i >= 0; -- i) {
+            right[i] = max(right[i+1], peak - prices[i]);
             peak = max(peak, prices[i]);
-            g[i] = max(g[i], peak - prices[i]);
         }
-
-        int max_profit = 0;
-        for (int i = 0; i < n; ++i)
-            max_profit = max(max_profit, f[i] + g[i]);
-
-        return max_profit;
+        
+        // 我们不用担心第i个stock会被左右购买两次的情况，此时两个交易直接合并即可
+        int ans = 0;
+        for (int i = 0; i < prices.size(); ++ i) {
+            ans = max(ans, left[i] + right[i]);
+        }
+        return ans;
     }
 };
 ```
