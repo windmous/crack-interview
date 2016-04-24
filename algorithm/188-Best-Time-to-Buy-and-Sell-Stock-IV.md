@@ -18,6 +18,36 @@ P188 只允许交易至多K笔，求最高利益。
 
 https://leetcode.com/discuss/62026/clean-java-dp-solution-with-comment
 
+
+```cpp
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if (prices.empty() || k <= 0) return 0;
+        
+        if (k >= prices.size() / 2) {
+            int ans = 0;
+            for (int i = 1; i < prices.size(); ++ i) {
+                ans += max(0, prices[i] - prices[i-1]);
+            }
+            return ans;
+        }
+        
+        vector<int> dp(prices.size());
+        for (int i = 0; i < k; ++ i) {
+            int local_max = 0 - prices[0];
+            for (int j = 1; j < prices.size(); ++ j) {
+                int tmp = dp[j];
+                dp[j] = max(dp[j-1], local_max + prices[j]);
+                local_max = max(tmp - prices[j], local_max);
+            }
+        }
+        
+        return dp.back();
+    }
+};
+```
+
 ```java
 /**
  * dp[i, j] represents the max profit up until prices[j] using at most i transactions. 
