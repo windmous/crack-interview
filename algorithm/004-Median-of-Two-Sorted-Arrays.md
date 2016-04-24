@@ -25,16 +25,17 @@ private:
     static int find_kth(vector<int> &nums1, vector<int> &nums2, int K) {
         const int n1 = nums1.size(), n2 = nums2.size();
         if (n1 > n2) return find_kth(nums2, nums1, K);
-        int low = 0, high = n1;
         
+		// 假如nums2元素不足k个，则nums1至少要出k - n2个元素
+        // 假如nums1元素不足k个，则nums1至多出k个元素
+        int low = max(0, K - n2), high = min(n1, K); 
         while (low <= high) {
-            // 小心[0],[0]的情况，K=2
-            int i = max(low + (high - low) / 2, K - n2);
+            int i = low + (high - low) / 2;
             int j = K - i;
             
-            if (j > 0 && i < n1 && nums2[j-1] > nums1[i]) {
+            if (j - 1 >= 0 && i < n1 && nums2[j-1] > nums1[i]) {
                 low = i + 1; 
-            } else if (i > 0 && j < n2 && nums1[i - 1] > nums2[j]) {
+            } else if (i - 1 >= 0 && j < n2 && nums1[i - 1] > nums2[j]) {
                 high = i - 1;
             } else {
                 int ans;

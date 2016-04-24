@@ -20,6 +20,7 @@ public:
 
 # 二分查找 12ms
 
+左闭右开
 ```cpp
 class Solution {
 public:
@@ -51,6 +52,39 @@ public:
 		}
 		return first;
 	}
+};
+```
+
+# 二分查找
+左闭右闭
+
+```cpp
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int len = nums.size();
+        if (len == 0 || target < nums[0] || target > nums[len - 1]) return {-1, -1};
+        
+        int left = 0, right = len - 1, n1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) left = mid + 1;
+            else if (nums[mid] > target) right = mid - 1;
+            else right = mid - 1;
+        }
+        
+        if (nums[left] != target) return {-1, -1};
+        n1 = left;
+        
+        right = len - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) left = mid + 1;
+            else if (nums[mid] > target) right = mid - 1;
+            else left = mid + 1;
+        }
+        return {n1, right};
+    }
 };
 ```
 [1]: https://leetcode.com/problems/search-for-a-range/

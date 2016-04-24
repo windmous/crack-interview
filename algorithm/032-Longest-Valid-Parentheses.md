@@ -32,7 +32,7 @@ public:
                 longest = max(longest, a - b - 1);
                 a = b;
             }
-            longest = max(longest, a);
+            longest = max(longest, a); // 不要忘记栈底元素也需要比较
         }
         return longest;
     }

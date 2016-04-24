@@ -26,4 +26,41 @@ public:
 };
 ```
 
+
+# 动态规划
+
+只使用了dp矩阵的右上角部分，向右走表示加），向下走表示加（，不能越过对角线走到左下角。
+
+以下是滚动数组实现。
+
+```cpp
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<vector<string>> dp(n + 1, vector<string>());
+        dp[0].push_back(string(""));
+        
+        for (int i = 1; i < n + 1; ++i) {
+            for (auto res : dp[i - 1])
+                dp[i].push_back(res + "(");
+        }
+        
+        for (int i = 1; i < n + 1; ++i) {
+            for (auto& res : dp[i]) {
+                res = res + ")";
+            }
+            for (int j = i + 1; j < n + 1; ++j) {
+                for (auto& res : dp[j]) {
+                    res = res + ")";
+                }
+                for (auto& res : dp[j - 1]) {
+                    dp[j].push_back(res + "(");
+                }
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/generate-parentheses/

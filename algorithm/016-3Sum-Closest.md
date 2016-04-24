@@ -11,28 +11,29 @@
 class Solution {
 public:
 	int threeSumClosest(vector<int>& nums, int target) {
-		if(nums.size() < 3) return 0;
-		int closest = nums[0]+nums[1]+nums[2];
+		int len = nums.size();
+		if (len <= 2) return -1;
+
 		sort(nums.begin(), nums.end());
-		
-		for(int first = 0 ; first < nums.size()-2 ; ++first) {
-			if(first > 0 && nums[first] == nums[first-1]) continue; // skip duplication
-			int second = first+1;
-			int third = nums.size()-1;            
-			while(second < third) {
-				int curSum = nums[first]+nums[second]+nums[third];
-				if(curSum == target) return curSum;
-				if(abs(target-curSum)<abs(target-closest)) {
-					closest = curSum;
+		int ans = nums[0] + nums[1] + nums[2]; // 不能置为INT_MAX，否则abs(INT_MAX - 某个负数)会等于一个很小的数！
+		for (int i = 0; i < len;) {
+			int left = i + 1, right = len - 1;
+			while (left < right) {
+				int sum = nums[i] + nums[left] + nums[right];
+				if (abs(sum - target) < abs(ans - target)) ans = sum;
+
+				if (sum == target) return sum;
+				else if (sum < target) {
+					do { ++left; } while (left < right && nums[left] == nums[left - 1]);
 				}
-				if(curSum > target) {
-					--third;
-				} else {
-					++second;
+				else {
+					do { --right; } while (left < right && nums[right] == nums[right + 1]);
 				}
 			}
+
+			do { ++i; } while (i < len && nums[i] == nums[i - 1]);
 		}
-		return closest;
+		return ans;
 	}
 };
 ```
