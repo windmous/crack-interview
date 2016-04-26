@@ -32,7 +32,7 @@ public:
         }
 
         left_cur->next = right_dummy.next;
-        right_cur->next = nullptr;
+        right_cur->next = nullptr; //不要忘记此步骤
 
         return left_dummy.next;
     }
