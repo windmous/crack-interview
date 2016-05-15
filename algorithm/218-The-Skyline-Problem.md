@@ -76,4 +76,62 @@ public:
 };
 ```
 
+# 分治法 52ms
+
+利用分治法的难点在于合并两个skyline，在合并时，需要对每个x点，维护skyline1的当前高度h1和skyline2的当前高度h2，取二者中的较高者。
+
+需要注意若将要插入的点的高度和已merge的skyline最后的一点的高度相同，则放弃插入此点。
+
+
+```cpp
+class Solution {
+public:
+    vector<pair<int, int>> getSkyline(vector<vector<int>>& buildings) {
+        int len = buildings.size();
+        if (len == 0) 
+            return vector<pair<int, int>>{};
+        else 
+            return merge(buildings, 0, len - 1);
+    }
+    
+    vector<pair<int, int>> merge(vector<vector<int>>& buildings, int left, int right) {
+        if (left == right) {
+            return vector<pair<int, int>> {make_pair(buildings[left][0], buildings[left][2]), 
+                                           make_pair(buildings[left][1], 0)};
+        }
+        
+        int mid = left + (right - left) / 2;
+        auto part1 = merge(buildings, left, mid);
+        auto part2 = merge(buildings, mid + 1, right);
+        int idx1 = 0, idx2 = 0, h1 = 0, h2 = 0, x;
+        
+        vector<pair<int, int>> ans;
+        while (idx1 != part1.size() || idx2 != part2.size()) {
+            if (idx1 == part1.size()) {			// out of part1
+                x = part2[idx2].first;
+                h2 = part2[idx2++].second;
+            } else if (idx2 == part2.size()) {  // out of part1
+                x = part1[idx1].first;
+                h1 = part1[idx1++].second;
+            } else if (part1[idx1].first < part2[idx2].first) {	// next is from part1
+                x = part1[idx1].first;
+                h1 = part1[idx1++].second;
+            } else if (part2[idx2].first < part1[idx1].first) { // next is from part2
+                x = part2[idx2].first;
+                h2 = part2[idx2++].second;
+            } else  {							// x's are same
+                x = part1[idx1].first;
+                h1 = part1[idx1++].second;
+                h2 = part2[idx2++].second;
+            }
+            if (ans.empty() || max(h1, h2) != ans.back().second)
+                ans.emplace_back(make_pair(x, max(h1, h2)));
+        }
+        
+        return ans;
+    }
+};
+
+```
+
 [1]: https://leetcode.com/problems/the-skyline-problem/
