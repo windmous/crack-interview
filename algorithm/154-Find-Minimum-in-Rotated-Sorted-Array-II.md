@@ -27,5 +27,30 @@ public:
 };
 ```
 
+# 二分法(8ms)
+
+```cpp
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int low = 0, high = nums.size();
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            // 找到转折点
+            if (mid != low && nums[mid] < nums[mid-1]) {
+                return nums[mid];
+            } else if (nums[low] == nums[mid] && nums[mid] == nums[high-1]) {
+                return *min_element(nums.begin()+low, nums.begin()+high);
+            } else if (nums[mid] <= nums[high-1]) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return nums[low];
+    }
+};
+```
+
 
 [1]: https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/

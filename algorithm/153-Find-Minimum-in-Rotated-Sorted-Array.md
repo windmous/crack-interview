@@ -26,4 +26,27 @@ public:
 };
 ```
 
+# 二分法(4ms)
+二分搜索转折点
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int low = 0, high = nums.size();
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // 检查当前是不是转折点，是的话直接返回即可
+            if (mid != low && nums[mid] < nums[mid-1]) {
+                return nums[mid];
+            } else  if (nums[mid] <= nums[high-1]) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return nums[low];
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
