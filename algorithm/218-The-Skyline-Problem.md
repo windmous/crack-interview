@@ -75,6 +75,51 @@ public:
     }
 };
 ```
+# 适合面试法(90ms)
+时间复杂度: O(NlogN)
+空间复杂度：O(N)
+
+根据法1修改而来，直接生成最终结果，不小产生额外的大量中间点
+
+```cpp
+class Solution {
+public:
+    vector<pair<int, int>> getSkyline(vector<vector<int>>& buildings) {
+        typedef pair<int, int> point;
+        // 使用堆可以保证先插入，后删除
+        priority_queue<point, vector<point>, greater<point>> coords;
+        for (const auto &building: buildings) {
+            coords.emplace(building[0], -building[2]);
+            coords.emplace(building[1], building[2]);
+        }
+        
+        multiset<int> heights = {0};
+        vector<point> result;
+        int cur_height = 0;
+
+        while (!coords.empty()) {
+            point p = coords.top();
+            coords.pop();
+            if (p.second < 0) {
+                heights.emplace(-p.second);
+            } else {
+                heights.erase(heights.find(p.second));
+            }
+            
+            if (cur_height != *(heights.rbegin())) {
+                cur_height = *heights.rbegin();
+                if (result.empty() || result.back().first != p.first) {
+                    result.emplace_back(p.first, cur_height);
+                } else {
+                    result.back().second = cur_height;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+```
 
 # 分治法 52ms
 
