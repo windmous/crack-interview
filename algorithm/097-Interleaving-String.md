@@ -32,6 +32,35 @@ bool isInterleave(string s1, string s2, string s3) {
 }
 ```
 
+# 优化版DP
+```cpp
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        if (s1.size() + s2.size() != s3.size()) return false;
+        if (s1.size() == 0) return s2 == s3;
+        const int n1 = s1.size(), n2 = s2.size();
+        vector<int> dp(n1 + 1);
+        dp[0] = true;
+        for (int i = 1; i <= n1; ++ i) {
+            dp[i] = s3[i-1] == s1[i-1] && dp[i-1];
+        }
+        
+        for (int j = 1; j <= n2; ++ j) {
+            dp[0] = dp[0] && s2[j-1] == s3[j-1];
+            for (int i = 1; i <= n1; ++ i) {
+                int result = 0;
+                if (s1[i-1] == s3[i+j-1]) result |= dp[i-1];
+                if (s2[j-1] == s3[i+j-1]) result |= dp[i];
+                dp[i] = result;
+            }
+        }
+        return dp[n1];
+        
+    }
+};
+```
+
 # BFS
 
 注意到动归方法中，table不是每个元素都要访问的，所以可以将所有可行路径想象成一棵树，利用BFS完成。因为只能向右和向下走，所以不会出现回路问题。

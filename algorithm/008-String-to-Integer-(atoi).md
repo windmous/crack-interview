@@ -28,4 +28,34 @@ int atoi(const char *str) {
 }
 ```
 
+稳健版本
+```cpp
+class Solution {
+public:
+    int myAtoi(string str) {
+        const int N = str.size();
+        int num = 0, sign = 1;
+        int i = 0;
+        
+        while (i < N && str[i] == ' ') ++ i;
+        if (i == N) return 0;
+        
+        if (str[i] == '+' || str[i] == '-') {
+            if (str[i] == '-') sign = -1;
+            ++ i;
+        }
+        
+        while (isdigit(str[i])) {
+            int digit = str[i ++] - '0';
+            if (num > INT_MAX / 10 || (num == INT_MAX/10 && digit > INT_MAX%10)) {
+                if (sign == 1) return INT_MAX;
+                else return INT_MIN;
+            }
+            num = num * 10 + digit;
+        }
+        return num * sign;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/string-to-integer-atoi/

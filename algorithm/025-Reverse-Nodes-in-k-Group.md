@@ -77,5 +77,34 @@ public:
 };
 ```
 
+# 非递归（26ms）
+- 用一个指针指向当前k个元素组之前的那个元素
+
+```cpp
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if (head == nullptr || k <= 1) return head;
+        ListNode dummy(-1);
+        ListNode *cur = head, *tail = &dummy;
+        int len = 0;
+        for (ListNode *p = head; p != nullptr; p = p->next, ++ len);
+        
+        while (len >= k) {
+            ListNode *next_tail = cur;
+            for (int i = 0; i < k; ++ i) {
+                ListNode *temp = cur->next;
+                cur->next = tail->next;
+                tail->next = cur;
+                cur = temp;
+            }
+            tail = next_tail;
+            len -= k;
+        }
+        tail->next = cur;
+        return dummy.next;
+    }
+};
+```
 
 [1]: https://leetcode.com/problems/reverse-nodes-in-k-group/

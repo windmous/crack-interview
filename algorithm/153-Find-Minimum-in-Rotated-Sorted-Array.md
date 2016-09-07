@@ -28,6 +28,7 @@ public:
 
 # 二分法(4ms)
 二分搜索转折点
+```
 class Solution {
 public:
     int findMin(vector<int>& nums) {
