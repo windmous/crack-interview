@@ -47,4 +47,36 @@ public:
 };
 ```
 
+# 递归2
+```cpp
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> result;
+        vector<int> path;
+        permute(result, path, nums);
+        return result;
+    }
+    
+    void permute(vector<vector<int>> &result, vector<int> &path, vector<int> &nums) {
+        if (path.size() == nums.size()) {
+            result.push_back(path);
+            return ;
+        }
+        
+        for (int i = 0; i < nums.size(); ++ i) {
+            if (i && nums[i] == nums[i-1]) continue;
+            int cnt = count(path.begin(), path.end(), nums[i]);
+            int sum = count(nums.begin(), nums.end(), nums[i]);
+            if (cnt < sum) {
+                path.push_back(nums[i]);
+                permute(result, path, nums);
+                path.pop_back();
+            }
+        }
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/permutations-ii/

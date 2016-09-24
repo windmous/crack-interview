@@ -27,4 +27,23 @@ public:
 };
 ```
 
+基于交换策略，适合被删元素非常少的情况
+```cpp
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        if (nums.empty()) return 0;
+        int j = nums.size();
+        for (int i = 0; i < j;) {
+            if (nums[i] == val) {
+                swap(nums[i], nums[--j]);
+            } else {
+                ++ i;
+            }
+        }
+        return j;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/remove-element/
