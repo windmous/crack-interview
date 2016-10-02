@@ -9,6 +9,7 @@
 空间复杂度：O(N)
 
 ```cpp
+
 class Solution {
 public:
     int maximumGap(vector<int>& nums) {
@@ -16,8 +17,11 @@ public:
         if (N < 2) return 0;
     
         vector<int> bucket_mins(N, 0x7fffffff), bucket_maxs(N);
-        const int min_n = *min_element(nums.begin(), nums.end());
-        const int max_n = *max_element(nums.begin(), nums.end());
+        
+        auto extreme_vals = std::minmax_element(nums.begin(), nums.end());
+        const int min_n = *extreme_vals.first, 
+                    max_n = *extreme_vals.second;
+
         if (min_n == max_n) return 0;
         const double ele_range = max_n - min_n;
 
@@ -46,6 +50,7 @@ public:
 
 本代码不能AC，主要是介绍一种排序思路。当最大元素-最小元素的值比较小的时候可以用该方法。
 
+```cpp
 class Solution {
 public:
     int maximumGap(vector<int>& nums) {
