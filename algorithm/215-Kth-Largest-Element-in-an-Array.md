@@ -107,33 +107,35 @@ public:
 };
 ```
 
-# Partition法(184ms)
+# Partition法(13ms)
 平均：O(N)，最坏：O(N^2)
 如果加上shuffle，那么可以认为性能到O(N)
 ```cpp
-class Solution { 
+class Solution {
 public:
-    int partition(vector<int>& nums, int left, int right) {
-        // 注意该partition是讲大于pivot的放到左边，小于pivot的放到右边
-        int pivot = nums[left];
-        int l = left + 1, r = right;
-        while (l <= r) {
-            if (nums[l] < pivot && nums[r] > pivot)
-                swap(nums[l++], nums[r--]);
-            if (nums[l] >= pivot) l++; 
-            if (nums[r] <= pivot) r--;
-        }
-        swap(nums[left], nums[r]);
-        return r;
-    }
-
-    int findKthLargest(vector<int>& nums, int k) {
-        int left = 0, right = nums.size() - 1;
+    int partition(vector<int> &nums, int low, int high) {
+        int pivot = nums[low];
+        int i = low, j = high;
         while (true) {
-            int pos = partition(nums, left, right);
-            if (pos == k - 1) return nums[pos];
-            if (pos > k - 1) right = pos - 1;
-            else left = pos + 1;
+            while (nums[++i] > pivot) if (i == high-1) break;
+            while (nums[--j] < pivot) if (j == low) break;
+            if (i >= j) break;
+            swap(nums[i], nums[j]);
+        }
+
+        swap(nums[low], nums[j]);
+        return j;
+    }
+    
+    int findKthLargest(vector<int>& nums, int k) {
+        // shuffling is very helpful, running time reduces from 66ms to 13 ms
+        random_shuffle(nums.begin(), nums.end());
+        int low = 0, high = nums.size();
+        while (true) {
+            int pos = partition(nums, low, high);
+            if (pos == k-1) return nums[pos];
+            if (pos > k - 1) high = pos;
+            else low = pos + 1;
         }
     }
 };
