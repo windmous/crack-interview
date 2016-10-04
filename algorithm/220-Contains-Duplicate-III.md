@@ -29,8 +29,8 @@ public:
 # 桶方法(36ms)
 时间复杂度：O(N)
 
-映射到同一个桶里的数字一定是在t范围内的，映射到相邻桶的则需要做必要检查。
-注意，这里桶大小应该是t+1而不是t！
+映射到同一个桶里的数字相减一定是在t范围内的，映射到相邻桶的则需要做必要检查。
+注意，这里桶大小应该是t+1而不是t，即如果要求同一个桶内的元素之差不超过t，那么大小为t+1才对！
 
 ```cpp
 class Solution {
@@ -39,9 +39,7 @@ public:
         if (k < 1 || t < 0 || nums.empty())  return false;
         
         // 求最小值，作为重映射时的基
-        long long base = accumulate(nums.begin()+1, 
-                                    nums.end(), nums[0], 
-                                    [](int x, int y) {return min(x, y);});
+        long long base = *min_element(nums.begin(), nums.end());
         unordered_map<long long, long long> buckets;
         
         for (int i = 0; i < nums.size(); ++ i) {

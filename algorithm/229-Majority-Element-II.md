@@ -1,10 +1,10 @@
 题目链接: [229.Majority Element II][1]
 难度: Medium
 
-# Boyer-Moore Majority Vote algorithm
+# Boyer-Moore Majority Vote algorithm(20ms)
 时间复杂度：O(N)
 
-```cpp(20ms)
+```cpp
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {

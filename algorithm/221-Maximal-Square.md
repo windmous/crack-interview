@@ -19,28 +19,56 @@ dp数组实际上只要一行或者一列即可。下面使用一列，代码如
 
 TODO：优化行序扫描，因为C数组是行主序的，效率更高。
 ```cpp
-int maximalSquare(vector<vector<char>>& matrix) {
-    if (matrix.empty()) return 0;
-    int m = matrix.size(), n = matrix[0].size();
-    vector<int> dp(m + 1, 0);
-    int maxsize = 0, pre = 0;
-    for (int j = 0; j < n; j++) {
-        for (int i = 1; i <= m; i++) {
-        	// 此时dp[i]的元素实际是dp[i][j-1]
-            int temp = dp[i];
-
-            if (matrix[i - 1][j] == '1') {
-            	// dp[i-1]实际是dp[i-1][j]
-            	// pre的值是dp[i-1][j-1]
-                dp[i] = min(dp[i], min(dp[i - 1], pre)) + 1;
-                maxsize = max(maxsize, dp[i]);
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.empty()) return 0;
+        const int M = matrix.size(), N = matrix[0].size();
+        vector<int> dp(N+1, 0);
+        int ans = 0;
+        
+        for (int i = 0; i < M; ++ i) {
+            int upper_left = dp[0];
+            for (int j = 1; j <= N; ++ j) {
+                int temp = dp[j];
+                if (matrix[i][j-1] == '1') {
+                    dp[j] = min({dp[j-1], dp[j], upper_left}) + 1;
+                    ans = max(ans, dp[j]);
+                } else {
+                    dp[j] = 0;
+                }
+                upper_left = temp;
             }
-            else dp[i] = 0; 
-            pre = temp;
         }
+        
+        return ans * ans;
     }
-    return maxsize * maxsize;
-}
+};
+```
+
+一种更简洁的写法：
+```cpp
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if (matrix.empty()) return 0;
+        const int M = matrix.size(), N = matrix[0].size();
+        vector<int> dp(N+1, 0);
+        int ans = 0;
+        
+        for (int i = 0; i < M; ++ i) {
+            int upper_left = dp[0];
+            for (int j = 1; j <= N; ++ j) {
+                int temp = dp[j];
+                dp[j] = (matrix[i][j-1] - '0') * (min({dp[j-1], dp[j], upper_left}) + 1);
+                ans = max(ans, dp[j]);
+                upper_left = temp;
+            }
+        }
+        
+        return ans * ans;
+    }
+};
 ```
 
 # 动态规划2(12ms)
