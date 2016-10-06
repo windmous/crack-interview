@@ -44,4 +44,38 @@ public:
 };
 ```
 
+
+```cpp
+class MedianFinder {
+public:
+
+    // Adds a number into the data structure.
+    void addNum(int num) {
+       small.push(num);
+       large.push(small.top());
+       small.pop();
+       
+       if (large.size() > small.size()) {
+           small.push(large.top());
+           large.pop();
+       }
+       
+    }
+
+    // Returns the median of current data stream
+    double findMedian() {
+        return ((small.size() + large.size()) % 2 == 0) ? 0.5 * (small.top() + large.top()) : small.top();
+    }
+    
+private:
+    priority_queue<int> small; // 大根堆
+    priority_queue<int, vector<int>, std::greater<int>> large; // 小根堆
+};
+
+// Your MedianFinder object will be instantiated and called as such:
+// MedianFinder mf;
+// mf.addNum(1);
+// mf.findMedian();
+```
+
 [1]: https://leetcode.com/problems/find-median-from-data-stream/

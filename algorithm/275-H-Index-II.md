@@ -20,4 +20,24 @@ public:
 };
 ```
 
+# 标准二分法
+```cpp
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        const int N = citations.size();
+        int low = 0, high = N;
+        while (low < high) {
+            const int mid = low + (high - low) / 2;
+            if (citations[mid] >= N-mid) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return N - low;
+    }
+};
+```
+
 [1]: https://leetcode.com/problems/h-index-ii/
